@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aadit Gupta — Portfolio 🎮
+
+A gamified personal portfolio with an RPG/arcade theme — neon HUD, animated grid background, quest-log timeline, a skill tree, achievement toasts, a hidden Konami-code easter egg, and an AI chatbot ("Ask the Guide") powered by Claude.
+
+Built with **Next.js 15** (App Router + Turbopack), **React 19**, **TypeScript**, and **Tailwind CSS v4**.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command          | Description                                  |
+| ---------------- | -------------------------------------------- |
+| `npm run dev`    | Start the dev server (Turbopack)             |
+| `npm run build`  | Production build                             |
+| `npm run start`  | Serve the production build                   |
+| `npm run lint`   | Lint with Biome                             |
+| `npm run format` | Format with Biome                           |
 
-## Learn More
+## AI Chatbot
 
-To learn more about Next.js, take a look at the following resources:
+The "Ask the Guide" chatbot ([`src/app/api/chat/route.ts`](src/app/api/chat/route.ts)) answers visitor questions about me.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **With an API key:** set `ANTHROPIC_API_KEY` and it uses Claude to answer from a built-in knowledge base.
+- **Without a key:** it falls back to a keyword-based responder, so the widget always works.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To enable Claude, create a `.env.local` file:
 
-## Deploy on Vercel
+```bash
+ANTHROPIC_API_KEY=sk-ant-...
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/app/
+├── layout.tsx            # Root layout, fonts, metadata
+├── page.tsx              # Home page (assembles all sections)
+├── globals.css           # Tailwind + global imports
+├── style.css             # Gamified design system (tokens, animations)
+├── api/chat/route.ts     # Chatbot API (Claude + fallback)
+├── components/           # Header, Home, About, Education, Projects,
+│                         #   Skills, Contact, Footer, Background, GameEffects
+└── projects/ESP/         # Camera Strap Redesign detail page
+
+public/
+├── documents/            # Résumé + project PDFs
+└── *.png / *.svg         # Images & icons
+```
+
+## Customization
+
+- **Social links:** `SOCIAL` in [`src/app/components/Home.tsx`](src/app/components/Home.tsx)
+- **Experience & education:** [`src/app/components/Education.tsx`](src/app/components/Education.tsx)
+- **Projects/Missions:** [`src/app/components/Projects.tsx`](src/app/components/Projects.tsx)
+- **Skills:** [`src/app/components/SkillsSection.tsx`](src/app/components/SkillsSection.tsx)
+- **Chatbot knowledge base:** `SYSTEM_PROMPT` in [`src/app/api/chat/route.ts`](src/app/api/chat/route.ts)
+- **Theme (colors, fonts, effects):** CSS variables at the top of [`src/app/style.css`](src/app/style.css)
+
+> Easter egg: try the Konami code — ↑ ↑ ↓ ↓ ← → ← → B A 🕹️
+
+## Deploy
+
+Deploy on [Vercel](https://vercel.com/new). Add `ANTHROPIC_API_KEY` as an environment variable to enable the Claude-powered chatbot.

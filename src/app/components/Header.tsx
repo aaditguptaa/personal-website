@@ -1,123 +1,70 @@
-'use client';
-import { useState, useEffect } from 'react';
+"use client";
+import { useEffect, useState } from "react";
+
+const LINKS = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "education", label: "Journey" },
+  { id: "projects", label: "Missions" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
+];
 
 export default function Header() {
-  const [activeMenu, setActiveMenu] = useState(false);
-  const [sticky, setSticky] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("home");
 
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll('section'));
+    const sections = Array.from(
+      document.querySelectorAll("section[id]"),
+    ) as HTMLElement[];
 
     const handleScroll = () => {
       const top = window.scrollY;
-      let foundSection = '';
-      let foundSectionIndex = -1;
+      setScrolled(top > 60);
 
-      // Find the current section and its index
-      sections.forEach((sec, index) => {
-        const offset = sec.offsetTop - 150;
-        const height = sec.offsetHeight;
-        const id = sec.getAttribute('id') || '';
-
-        if (top >= offset && top < offset + height) {
-          foundSection = id;
-          foundSectionIndex = index;
-          sec.classList.add('show-animate');
-        } else {
-          sec.classList.remove('show-animate');
-        }
+      let current = "home";
+      sections.forEach((sec) => {
+        if (top >= sec.offsetTop - 200) current = sec.id;
       });
-
-      // Update active section
-      if (foundSection) {
-        setActiveSection(foundSection);
-      }
-
-      // Determine if header should have 'odd' class based on section index
-      // CSS uses nth-of-type(even), which means 2nd, 4th, 6th sections (index 1, 3, 5)
-      const isEvenSection = foundSectionIndex !== -1 && (foundSectionIndex + 1) % 2 === 0;
-      setSticky(top > 100);
-      
-      // Update header class based on section position
-      const header = document.querySelector('.header');
-      if (header) {
-        if (isEvenSection) {
-          header.classList.add('odd');
-        } else {
-          header.classList.remove('odd');
-        }
-      }
+      setActive(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu when clicking on a link
-  const handleNavClick = () => {
-    setActiveMenu(false);
-  };
+  const close = () => setMenuOpen(false);
 
   return (
-    <header className={`header ${sticky ? 'sticky' : ''}`}>
-      <a href="#home" className="logo" onClick={handleNavClick}>Aadit.</a>
-      
-      <div
-        id="menu-icon"
-        className={`bx ${activeMenu ? 'bx-x' : 'bx-menu'}`}
-        onClick={() => setActiveMenu(!activeMenu)}
-        role="button"
-        aria-label={activeMenu ? 'Close menu' : 'Open menu'}
-        aria-expanded={activeMenu}
-      ></div>
+    <header className={`hud-header ${scrolled ? "scrolled" : ""}`}>
+      <a href="#home" className="hud-logo" onClick={close}>
+        <b>AADIT</b>.EXE
+        <span className="cursor" />
+      </a>
 
-      <nav className={`navbar ${activeMenu ? 'active' : ''}`}>
-        <div className="active-nav"></div>
-        <a 
-          href="#home" 
-          className={activeSection === 'home' ? 'active' : ''}
-          onClick={handleNavClick}
-        >
-          Home
-        </a>
-        <a 
-          href="#about" 
-          className={activeSection === 'about' ? 'active' : ''}
-          onClick={handleNavClick}
-        >
-          About
-        </a>
-        <a 
-          href="#education" 
-          className={activeSection === 'education' ? 'active' : ''}
-          onClick={handleNavClick}
-        >
-          Education
-        </a>
-        <a 
-          href="#projects" 
-          className={activeSection === 'projects' ? 'active' : ''}
-          onClick={handleNavClick}
-        >
-          Projects
-        </a>
-        <a 
-          href="#skills" 
-          className={activeSection === 'skills' ? 'active' : ''}
-          onClick={handleNavClick}
-        >
-          Skills
-        </a>
-        <a 
-          href="#contact" 
-          className={activeSection === 'contact' ? 'active' : ''}
-          onClick={handleNavClick}
-        >
-          Contact
-        </a>
+      <div
+        className={`hud-menu-icon bx ${menuOpen ? "bx-x" : "bx-menu"}`}
+        onClick={() => setMenuOpen((v) => !v)}
+        role="button"
+        tabIndex={0}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={menuOpen}
+      />
+
+      <nav className={`hud-nav ${menuOpen ? "open" : ""}`}>
+        {LINKS.map((link) => (
+          <a
+            key={link.id}
+            href={`#${link.id}`}
+            className={active === link.id ? "active" : ""}
+            onClick={close}
+          >
+            {link.label}
+          </a>
+        ))}
       </nav>
     </header>
   );

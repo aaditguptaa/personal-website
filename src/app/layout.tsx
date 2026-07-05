@@ -1,18 +1,22 @@
-import './globals.css';
+import "./globals.css";
 
 export const metadata = {
-  title: "Aadit's Website",
-  description: 'Personal portfolio of Aadit Gupta',
+  title: "Aadit Gupta — Player One",
+  description:
+    "The gamified portfolio of Aadit Gupta — Computer Engineering student, developer & builder.",
   icons: {
-    icon: '/a.svg',
+    icon: "/a.svg",
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
-        {/* External CSS links can go here too */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"

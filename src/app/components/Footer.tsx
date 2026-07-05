@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
 export default function Footer() {
+  const toTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
     <footer className="footer">
-      <div className="footer-text">
-        <p>Copyright: &copy; {new Date().getFullYear()} Aadit Gupta | All Rights Reserved</p>
-      </div>
-
-      <div className="footer-iconTop">
-        <a href="#">
-          <i className="bx bx-up-arrow-alt"></i>
-        </a>
-      </div>
+      <p>
+        <b>© {new Date().getFullYear()} Aadit Gupta</b> — Thanks for playing.
+        All rights reserved.
+      </p>
+      <button className="respawn" onClick={toTop} aria-label="Back to top">
+        <i className="bx bx-up-arrow-alt" style={{ fontSize: "2rem" }} />{" "}
+        Respawn
+      </button>
     </footer>
   );
 }

@@ -1,187 +1,121 @@
-// app/components/projects.tsx
 import Link from "next/link";
 
 interface Project {
   title: string;
   description: string;
-  href: string;
-  tags?: string[];
+  href?: string;
+  tags: string[];
+  difficulty: string;
 }
 
 const projects: Project[] = [
   {
-    title: "Will AI End Humanity?",
-    description: "A dissertation exploring the potential risks of AI.",
-    href: "/projects/EPQ",
-    tags: ["Research", "AI Ethics"],
+    title: "CAELUS Drone Optimizer",
+    description:
+      "ML system optimizing emergency drone deployment for cardiac-arrest response across Glasgow — NSGA-II station placement, demand modelling, and A* path planning.",
+    tags: ["Python", "PyTorch", "NSGA-II", "Research"],
+    difficulty: "BOSS FIGHT",
+  },
+  {
+    title: "Streetview Monopoly",
+    description:
+      "A full-stack multiplayer game using Google Streetview for location-based gameplay, with turn-based state management and secure Google Maps API integration.",
+    tags: ["Full-Stack", "Google Maps API", "Multiplayer"],
+    difficulty: "CO-OP RAID",
+  },
+  {
+    title: "FPGA Rhythm Game",
+    description:
+      "A rhythm game on the DE1-SoC board driving a VGA display, keyboard and speakers — game logic built from FSMs, shift registers and counters in Verilog.",
+    tags: ["Verilog", "FPGA", "DE1-SoC"],
+    difficulty: "HARDWARE BOSS",
+  },
+  {
+    title: "Autonomous Scale Racing",
+    description:
+      "Hardware team member enabling autonomous Arduino ↔ Nvidia Jetson communication over UART, plus a custom PCB section designed in Altium.",
+    tags: ["C++", "Arduino", "Jetson", "Altium"],
+    difficulty: "SPEED RUN",
+  },
+  {
+    title: "Aerospace Autonomy",
+    description:
+      "Camera-based target localization with Python & OpenCV and minimum-jerk trajectory planning in MATLAB/Python, containerized with Docker for autonomous drone missions.",
+    tags: ["Python", "OpenCV", "MATLAB", "Docker"],
+    difficulty: "FLIGHT SIM",
   },
   {
     title: "Camera Strap Redesign",
-    description: "A Conceptual Design Specification for a camera strap.",
+    description:
+      "A conceptual design specification that made camera straps 42% more ergonomic — served as sole client liaison for a 5-person engineering team.",
     href: "/projects/ESP",
-    tags: ["Design", "Product"],
-  }
+    tags: ["Design", "Ergonomics"],
+    difficulty: "SIDE QUEST",
+  },
 ];
+
+function MissionInner({ project, i }: { project: Project; i: number }) {
+  return (
+    <>
+      <div className="mission-top">
+        <span className="mission-no">
+          MISSION #{String(i + 1).padStart(2, "0")}
+        </span>
+        <span className="mission-diff">{project.difficulty}</span>
+      </div>
+      <h3>{project.title}</h3>
+      <p>{project.description}</p>
+      <div className="mission-tags">
+        {project.tags.map((tag) => (
+          <span className="chip" key={tag}>
+            {tag}
+          </span>
+        ))}
+      </div>
+      {project.href ? (
+        <span className="mission-cta">
+          Enter Mission{" "}
+          <i className="bx bx-right-arrow-alt" style={{ fontSize: "2.2rem" }} />
+        </span>
+      ) : (
+        <span className="mission-cta" style={{ color: "var(--green)" }}>
+          <i className="bx bx-check-circle" style={{ fontSize: "2rem" }} />{" "}
+          Deployed
+        </span>
+      )}
+    </>
+  );
+}
 
 export default function Projects() {
   return (
-    <section
-      className="projects-section text-white"
-      id="projects"
-    >
+    <section className="projects" id="projects">
+      <div className="section-tag">{"// MISSION SELECT"}</div>
       <h2 className="heading">
-        My <span>Projects</span>
+        My <span>Missions</span>
       </h2>
-      <p style={{ fontSize: '1.6rem', marginBottom: '5rem', color: 'var(--text-color)', textAlign: 'center' }}>
-        Explore my latest work and creative endeavors
-      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{ maxWidth: '120rem', margin: '0 auto' }}>
-        {projects.map((project, index) => (
-          <Link
-            key={project.title}
-            href={project.href}
-            className="project-card group relative"
-            style={{
-              background: 'linear-gradient(135deg, rgba(17, 46, 66, 0.6), rgba(8, 27, 41, 0.8))',
-              border: '0.2rem solid rgba(0, 171, 240, 0.3)',
-              padding: '3rem',
-              borderRadius: '1.5rem',
-              overflow: 'visible',
-              backdropFilter: 'blur(10px)',
-              transition: 'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              willChange: 'transform'
-            }}
-          >
-            {/* Subtle glow on hover */}
-            <div 
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
-              style={{
-                background: 'radial-gradient(circle at 50% 0%, rgba(0, 171, 240, 0.15), transparent 70%)',
-                borderRadius: '1.5rem',
-                transition: 'opacity 0.3s ease'
-              }}
-            />
-
-            <div className="relative z-10" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              {/* Project number */}
-              <div style={{ 
-                fontSize: '1.4rem', 
-                fontFamily: 'monospace',
-                color: 'var(--main-color)',
-                marginBottom: '2rem',
-                fontWeight: '600',
-                letterSpacing: '0.1rem'
-              }}>
-                #{String(index + 1).padStart(2, '0')}
-              </div>
-
-              <div style={{ flexGrow: 1 }}>
-                {/* Title */}
-                <h3 
-                  className="group-hover:text-[var(--main-color)]"
-                  style={{
-                    fontSize: '2.8rem',
-                    fontWeight: '700',
-                    marginBottom: '1.5rem',
-                    lineHeight: '1.3',
-                    color: 'var(--text-color)',
-                    transition: 'color 0.3s ease'
-                  }}
-                >
-                  {project.title}
-                </h3>
-                
-                {/* Description */}
-                <p style={{
-                  fontSize: '1.6rem',
-                  color: 'rgba(237, 237, 237, 0.7)',
-                  lineHeight: '1.6',
-                  marginBottom: '2rem'
-                }}>
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                {project.tags && (
-                  <div style={{ 
-                    display: 'flex', 
-                    flexWrap: 'wrap', 
-                    gap: '1rem', 
-                    marginBottom: '2rem',
-                    minHeight: '3.3rem'
-                  }}>
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          padding: '0.5rem 1.5rem',
-                          fontSize: '1.3rem',
-                          fontWeight: '500',
-                          background: 'rgba(0, 171, 240, 0.1)',
-                          color: 'var(--main-color)',
-                          borderRadius: '0.5rem',
-                          border: '0.1rem solid rgba(0, 171, 240, 0.3)',
-                          whiteSpace: 'nowrap',
-                          height: '3.3rem',
-                          display: 'inline-flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* View Project CTA */}
-              <div 
-                className="group-hover:translate-x-2"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  marginTop: 'auto',
-                  fontSize: '1.6rem',
-                  fontWeight: '600',
-                  color: 'var(--main-color)',
-                  transition: 'transform 0.3s ease'
-                }}
-              >
-                <span>View Project</span>
-                <svg
-                  style={{ width: '2rem', height: '2rem' }}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </div>
+      <div className="mission-grid">
+        {projects.map((project, i) =>
+          project.href ? (
+            <Link
+              key={project.title}
+              href={project.href}
+              className="mission fade-up"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <MissionInner project={project} i={i} />
+            </Link>
+          ) : (
+            <div
+              key={project.title}
+              className="mission fade-up"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <MissionInner project={project} i={i} />
             </div>
-
-            {/* Hover effect */}
-            <style jsx>{`
-              .project-card {
-                transform: translateY(0);
-              }
-              .project-card:hover {
-                transform: translateY(-0.5rem) !important;
-                border-color: var(--main-color) !important;
-                box-shadow: 0 1rem 3rem rgba(0, 171, 240, 0.2) !important;
-              }
-            `}</style>
-          </Link>
-        ))}
+          ),
+        )}
       </div>
     </section>
   );

@@ -1,41 +1,31 @@
-'use client';
-import Header from './components/Header';
-import HomeSection from './components/Home';
-import About from './components/About';
-import Education from './components/Education';
+"use client";
+import About from "./components/About";
+import Background from "./components/Background";
+import Contact from "./components/Contact";
+import Education from "./components/Education";
+import Footer from "./components/Footer";
+import GameEffects from "./components/GameEffects";
+import Header from "./components/Header";
+import HomeSection from "./components/Home";
 import Projects from "./components/Projects";
-import SkillsSection from './components/SkillsSection';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-
+import SkillsSection from "./components/SkillsSection";
 
 export default function Home() {
-
   return (
     <>
+      <Background />
+      <GameEffects />
       <Header />
 
       <main>
-        {/* Home Section */}
         <HomeSection />
-
-        {/* About Section */}
         <About />
-
-        {/* Education Section */}
         <Education />
-
-        {/* Projects Section */}
         <Projects />
-
-        {/* Skills Section */}
         <SkillsSection />
-
-        {/* Contact Section */}
         <Contact />
       </main>
 
-      {/* Footer */}
       <Footer />
     </>
   );

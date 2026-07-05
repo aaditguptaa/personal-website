@@ -1,153 +1,149 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+
+const EMAIL = "aadit.gupta@mail.utoronto.ca";
+const LINKEDIN = "https://www.linkedin.com/in/aadit-gupta-ag";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    mobile: '',
-    subject: '',
-    message: '',
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate submission delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log('Form submitted:', formData);
-    // You can later integrate email API or backend here
-    alert('Message sent successfully!');
-    setFormData({ name: '', email: '', mobile: '', subject: '', message: '' });
-    setIsSubmitting(false);
+
+    // Compose a real email via the user's mail client — works with no backend.
+    const subject = encodeURIComponent(
+      form.subject || `Portfolio message from ${form.name}`,
+    );
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
+    );
+    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("achievement", {
+          detail: {
+            icon: "📨",
+            title: "Message Dispatched!",
+            key: "contact-sent",
+          },
+        }),
+      );
+    }
+    setForm({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
     <section className="contact" id="contact">
-      <h2 className="heading">Contact <span>Me</span></h2>
+      <div className="section-tag">{"// COMMS CHANNEL"}</div>
+      <h2 className="heading">
+        Contact <span>Me</span>
+      </h2>
 
-      <form onSubmit={handleSubmit}>
-        <div className="input-box">
-          <div className="input-field">
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <span className="focus"></span>
+      <div className="terminal">
+        <div className="terminal-bar">
+          <span className="dot r" />
+          <span className="dot y" />
+          <span className="dot g" />
+          <span className="title">new_message.exe</span>
+        </div>
+        <div className="terminal-body">
+          <div className="terminal-line">
+            <span className="prompt">guest@aadit:~$</span> ./send_message --to
+            Aadit
           </div>
 
-          <div className="input-field">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <span className="focus"></span>
-          </div>
-        </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-grid">
+              <div className="field">
+                <label>PLAYER_NAME</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="field">
+                <label>EMAIL_ADDR</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="field full">
+                <label>SUBJECT</label>
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="What's this about?"
+                  value={form.subject}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="field full">
+                <label>MESSAGE</label>
+                <textarea
+                  name="message"
+                  rows={5}
+                  placeholder="Type your message…"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
 
-        <div className="input-box">
-          <div className="input-field">
-            <input
-              type="tel"
-              name="mobile"
-              placeholder="Mobile Number"
-              value={formData.mobile}
-              onChange={handleChange}
-            />
-            <span className="focus"></span>
-          </div>
-
-          <div className="input-field">
-            <input
-              type="text"
-              name="subject"
-              placeholder="Email Subject"
-              value={formData.subject}
-              onChange={handleChange}
-              required
-            />
-            <span className="focus"></span>
-          </div>
+            <div style={{ marginTop: "2.4rem" }}>
+              <button type="submit" className="gbtn">
+                <i className="bx bx-send" style={{ fontSize: "2rem" }} />{" "}
+                Transmit Message
+              </button>
+            </div>
+          </form>
         </div>
-
-        <div className="textarea-field">
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows={6}
-            value={formData.message}
-            onChange={handleChange}
-            required
-          />
-          <span className="focus"></span>
-        </div>
-
-        <div className="btn-box btns">
-          <button 
-            type="submit" 
-            className="btn"
-            disabled={isSubmitting}
-            style={{
-              opacity: isSubmitting ? 0.6 : 1,
-              cursor: isSubmitting ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {isSubmitting ? 'Sending...' : 'Send'}
-          </button>
-        </div>
-      </form>
+      </div>
 
       <div className="contact-links">
-        <h3 className="heading" style={{ fontSize: '2.5rem', marginTop: '4rem' }}>
-          Or reach out directly
-        </h3>
-
+        <div className="sub">{"// OR REACH OUT DIRECTLY"}</div>
         <div className="contact-icons">
-          <a
-            href="mailto:aadit.gupta@mail.utoronto.ca"
-            className="email-icon"
-            aria-label="Email me"
-            style={{ textDecoration: 'none' }}
-          >
-            <i className="bx bx-envelope"></i>
+          <a href={`mailto:${EMAIL}`} className="sci-inline" aria-label="Email">
+            <span className="chip">
+              <i className="bx bx-envelope" style={{ fontSize: "1.8rem" }} />{" "}
+              Email
+            </span>
           </a>
-
           <a
-            href="https://www.linkedin.com/in/aadit-gupta-1411ag"
+            href={LINKEDIN}
             target="_blank"
             rel="noopener noreferrer"
-            className="linkedIn-icon"
-            aria-label="Connect on LinkedIn"
-            style={{ textDecoration: 'none' }}
+            aria-label="LinkedIn"
           >
-            <i className="bx bxl-linkedin"></i>
+            <span className="chip">
+              <i className="bx bxl-linkedin" style={{ fontSize: "1.8rem" }} />{" "}
+              LinkedIn
+            </span>
           </a>
         </div>
-
-        <p style={{
-          fontSize: '1.6rem',
-          color: 'rgba(237, 237, 237, 0.7)',
-          textAlign: 'center',
-          marginTop: '2rem'
-        }}>
-          aadit.gupta@mail.utoronto.ca
-        </p>
+        <p className="contact-email">{EMAIL}</p>
       </div>
     </section>
   );

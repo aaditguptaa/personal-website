@@ -1,185 +1,113 @@
-'use client';
+"use client";
 
-interface TimelineItem {
+interface Quest {
   year: string;
   title: string;
   organization: string;
   description: string;
+  status: "active" | "done";
   highlights?: string[];
 }
 
-const educationData: TimelineItem[] = [
+const education: Quest[] = [
   {
-    year: '2024 - 2029',
-    title: 'Bachelor of Applied Science in Engineering',
-    organization: 'University of Toronto',
-    description: 'Pursuing a comprehensive engineering degree with focus on innovative problem-solving, technical design, and applied sciences.',
+    year: "2024 - 2029",
+    title: "BASc, Computer Engineering + PEY Co-op",
+    organization: "University of Toronto",
+    status: "active",
+    description:
+      "Pursuing a Bachelor of Applied Science in Computer Engineering with a Professional Experience Year (PEY) co-op.",
     highlights: [
-      'Engineering Science Program',
-      'Focus on Design and Innovation',
-      'Hands-on Project-Based Learning'
-    ]
+      "Digital Systems (Verilog / FPGA Design)",
+      "Computer Fundamentals (C / C++)",
+      "Electrical Fundamentals · Calculus III",
+    ],
   },
-  {
-    year: '2020 - 2024',
-    title: 'High School Diploma',
-    organization: 'Your High School Name',
-    description: 'Completed advanced courses in mathematics, sciences, and technology with distinction.',
-    highlights: [
-      'Extended Project Qualification (EPQ)',
-      'Advanced STEM Courses',
-      'Academic Excellence Awards'
-    ]
-  }
 ];
 
-const experienceData: TimelineItem[] = [
+const experience: Quest[] = [
   {
-    year: '2024 - Present',
-    title: 'Web Developer',
-    organization: 'Freelance / Personal Projects',
-    description: 'Building modern, responsive web applications using Next.js, React, and TypeScript. Focus on creating engaging user experiences with clean, maintainable code.',
+    year: "2026 - Present",
+    title: "Research Assistant — CAELUS Project",
+    organization: "University of Strathclyde",
+    status: "active",
+    description:
+      "Building an ML system to optimize emergency drone deployment for cardiac-arrest response across Glasgow, extending CAELUS — a peer-reviewed framework used by NHS Greater Glasgow and Clyde.",
     highlights: [
-      'Next.js & React Development',
-      'Responsive UI/UX Design',
-      'Full-Stack Integration'
-    ]
+      "NSGA-II multi-objective station placement optimizer",
+      "Demographic-aware demand model (Poisson NLL, spatial CV)",
+      "A* path planning + FlightTimeNet NN surrogate",
+    ],
   },
   {
-    year: '2023 - 2024',
-    title: 'Engineering Student Researcher',
-    organization: 'Academic Projects',
-    description: 'Conducted research on AI safety and product design, resulting in comprehensive project documentation and presentations.',
+    year: "2025",
+    title: "Product Management Intern",
+    organization: "Andersen UAE",
+    status: "done",
+    description:
+      "Developed an AI-powered E-Invoicing Assistant that answered client tax queries in under 5 seconds, deployed via a FastAPI REST API.",
     highlights: [
-      'AI Ethics Research',
-      'Product Design Specifications',
-      'Technical Documentation'
-    ]
-  }
+      "GPT-4 response pipeline (−1.3s latency)",
+      "ChromaDB vector store over 10,000+ entries",
+      "Retrieval + caching cut response times 40%",
+    ],
+  },
 ];
+
+function QuestCard({ item }: { item: Quest }) {
+  return (
+    <div className="quest">
+      <div className="quest-card">
+        <div className="quest-meta">
+          <span className="quest-year">
+            <i className="bx bxs-calendar" /> {item.year}
+          </span>
+          <span className={`quest-status ${item.status}`}>
+            {item.status === "active" ? "◉ IN PROGRESS" : "✓ COMPLETE"}
+          </span>
+        </div>
+        <h3>{item.title}</h3>
+        <div className="quest-org">{item.organization}</div>
+        <p>{item.description}</p>
+        {item.highlights && (
+          <ul className="quest-rewards">
+            {item.highlights.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Education() {
   return (
     <section className="education" id="education">
+      <div className="section-tag">{"// QUEST LOG"}</div>
       <h2 className="heading">
         My <span>Journey</span>
       </h2>
 
-      <div className="education-row">
-        {/* Education Column */}
-        <div className="education-column">
-          <h3 className="title">Education</h3>
-          <div className="education-box">
-            {educationData.map((item, index) => (
-              <div className="education-content" key={index}>
-                <div className="content">
-                  <div className="year">
-                    <i className="bx bxs-calendar"></i> {item.year}
-                  </div>
-                  <h3>{item.title}</h3>
-                  <h4 style={{
-                    fontSize: '1.8rem',
-                    color: 'var(--main-color)',
-                    fontWeight: '500',
-                    marginBottom: '1rem'
-                  }}>
-                    {item.organization}
-                  </h4>
-                  <p style={{ marginBottom: '1rem' }}>
-                    {item.description}
-                  </p>
-                  {item.highlights && (
-                    <ul style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.5rem'
-                    }}>
-                      {item.highlights.map((highlight, idx) => (
-                        <li 
-                          key={idx}
-                          style={{
-                            fontSize: '1.4rem',
-                            color: 'rgba(237, 237, 237, 0.7)',
-                            paddingLeft: '1.5rem',
-                            position: 'relative'
-                          }}
-                        >
-                          <span style={{
-                            position: 'absolute',
-                            left: 0,
-                            color: 'var(--main-color)',
-                            fontWeight: 'bold'
-                          }}>
-                            •
-                          </span>
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
+      <div className="quest-row">
+        <div className="quest-col">
+          <h3 className="col-title">
+            <i className="bx bxs-graduation" /> Education
+          </h3>
+          <div className="quest-track">
+            {education.map((item) => (
+              <QuestCard key={item.title} item={item} />
             ))}
           </div>
         </div>
 
-        {/* Experience Column */}
-        <div className="education-column">
-          <h3 className="title">Experience</h3>
-          <div className="education-box">
-            {experienceData.map((item, index) => (
-              <div className="education-content" key={index}>
-                <div className="content">
-                  <div className="year">
-                    <i className="bx bxs-calendar"></i> {item.year}
-                  </div>
-                  <h3>{item.title}</h3>
-                  <h4 style={{
-                    fontSize: '1.8rem',
-                    color: 'var(--main-color)',
-                    fontWeight: '500',
-                    marginBottom: '1rem'
-                  }}>
-                    {item.organization}
-                  </h4>
-                  <p style={{ marginBottom: '1rem' }}>
-                    {item.description}
-                  </p>
-                  {item.highlights && (
-                    <ul style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.5rem'
-                    }}>
-                      {item.highlights.map((highlight, idx) => (
-                        <li 
-                          key={idx}
-                          style={{
-                            fontSize: '1.4rem',
-                            color: 'rgba(237, 237, 237, 0.7)',
-                            paddingLeft: '1.5rem',
-                            position: 'relative'
-                          }}
-                        >
-                          <span style={{
-                            position: 'absolute',
-                            left: 0,
-                            color: 'var(--main-color)',
-                            fontWeight: 'bold'
-                          }}>
-                            •
-                          </span>
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
+        <div className="quest-col">
+          <h3 className="col-title">
+            <i className="bx bxs-briefcase" /> Experience
+          </h3>
+          <div className="quest-track">
+            {experience.map((item) => (
+              <QuestCard key={item.title} item={item} />
             ))}
           </div>
         </div>

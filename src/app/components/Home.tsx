@@ -221,7 +221,14 @@ export default function HomeSection() {
         {/* NPC chatbot */}
         <div className="npc fade-up" style={{ animationDelay: "0.15s" }}>
           <div className="npc-head">
-            <div className="npc-avatar">🤖</div>
+            <div className="npc-avatar">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/avatar.svg"
+                alt="Guide avatar"
+                style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }}
+              />
+            </div>
             <div>
               <div className="name">Ask the Guide</div>
               <div className="status">ONLINE — ask me anything</div>

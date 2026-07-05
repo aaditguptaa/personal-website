@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Neon guide avatar">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1024"/>
+      <stop offset="1" stop-color="#05070f"/>
+    </linearGradient>
+    <linearGradient id="helmet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12203f"/>
+      <stop offset="1" stop-color="#0b1330"/>
+    </linearGradient>
+    <linearGradient id="visor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00eaff"/>
+      <stop offset="0.5" stop-color="#7ef9ff"/>
+      <stop offset="1" stop-color="#00eaff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#00eaff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#00eaff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+  </defs>
+
+  <!-- tile -->
+  <rect x="2" y="2" width="96" height="96" rx="22" fill="url(#bg)" stroke="#00eaff" stroke-opacity="0.5" stroke-width="2"/>
+  <!-- subtle grid -->
+  <g stroke="#00eaff" stroke-opacity="0.08" stroke-width="1">
+    <path d="M2 26H98 M2 50H98 M2 74H98 M26 2V98 M50 2V98 M74 2V98"/>
+  </g>
+  <!-- corner ticks -->
+  <g stroke="#00eaff" stroke-width="2" fill="none" stroke-opacity="0.9">
+    <path d="M12 20V12H20 M80 12H88V20 M12 80V88H20 M88 80V88H80"/>
+  </g>
+
+  <ellipse cx="50" cy="46" rx="30" ry="28" fill="url(#glow)"/>
+
+  <!-- ear cups -->
+  <rect x="18" y="42" width="9" height="20" rx="4" fill="#b026ff"/>
+  <rect x="73" y="42" width="9" height="20" rx="4" fill="#b026ff"/>
+
+  <!-- head -->
+  <rect x="26" y="26" width="48" height="46" rx="18" fill="url(#helmet)" stroke="#00eaff" stroke-width="2"/>
+
+  <!-- antenna -->
+  <line x1="50" y1="26" x2="50" y2="16" stroke="#00eaff" stroke-width="2"/>
+  <circle cx="50" cy="14" r="3.4" fill="#ffd23f"/>
+  <circle cx="50" cy="14" r="6" fill="#ffd23f" opacity="0.3" filter="url(#soft)"/>
+
+  <!-- visor -->
+  <rect x="32" y="38" width="36" height="16" rx="8" fill="#050a18" stroke="#00eaff" stroke-opacity="0.5" stroke-width="1.5"/>
+  <rect x="35" y="41.5" width="30" height="9" rx="4.5" fill="url(#visor)" opacity="0.25"/>
+  <!-- eyes -->
+  <circle cx="42" cy="46" r="3.4" fill="url(#visor)"/>
+  <circle cx="58" cy="46" r="3.4" fill="url(#visor)"/>
+  <circle cx="42" cy="46" r="6" fill="#00eaff" opacity="0.4" filter="url(#soft)"/>
+  <circle cx="58" cy="46" r="6" fill="#00eaff" opacity="0.4" filter="url(#soft)"/>
+
+  <!-- smile / mouth grille -->
+  <path d="M43 60 Q50 65 57 60" fill="none" stroke="#39ff14" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

@@ -32,11 +32,12 @@ export default function About() {
           <span className="ring" />
           <span className="ring two" />
           <Image
-            src="/aaditImage-copy.png"
-            alt="Aadit Gupta"
+            src="/8-Bit_Image.png"
+            alt="Aadit Gupta — 8-bit character portrait"
             width={300}
             height={300}
             priority
+            style={{ objectPosition: "center 28%" }}
           />
           <span className="lvl-badge">LV.2</span>
         </div>

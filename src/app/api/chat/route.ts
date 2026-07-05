@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { type NextRequest, NextResponse } from "next/server";
 import { getClientIp, rateLimit } from "../../lib/rateLimit";
+import { logRequest } from "../../lib/requestInfo";
 
 // Knowledge base — Claude answers as Aadit's portfolio guide from this context.
 const SYSTEM_PROMPT = `You are the friendly in-game "Guide" NPC on Aadit Gupta's gamified personal portfolio website. Answer visitors' questions about Aadit in a warm, concise, upbeat tone (2-4 sentences). A light gaming flavor is welcome but keep it professional and genuinely informative. If you don't know something, say so and point them to the Contact section. Only respond with the final answer — no preamble or meta commentary.
@@ -56,6 +57,8 @@ export async function POST(request: NextRequest) {
       { status: 429, headers: { "Retry-After": String(retryAfter) } },
     );
   }
+
+  logRequest(request, "/api/chat");
 
   let message = "";
   try {

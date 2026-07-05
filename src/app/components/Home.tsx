@@ -226,7 +226,12 @@ export default function HomeSection() {
               <img
                 src="/avatar.svg"
                 alt="Guide avatar"
-                style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
               />
             </div>
             <div>

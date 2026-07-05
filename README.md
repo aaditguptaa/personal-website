@@ -49,6 +49,13 @@ CONTACT_FROM="Portfolio <onboarding@resend.dev>"   # use a verified domain in pr
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
+## Analytics & Observability
+
+Two layers of tracking:
+
+- **Visitor traffic** — [Vercel Web Analytics](https://vercel.com/docs/analytics) (`<Analytics />` in the root layout). Cookie-free; shows referrers/sources, countries, and top pages. **Enable "Web Analytics" in the Vercel project dashboard** to start collecting (it's a no-op locally).
+- **API request origins** — `/api/chat` and `/api/contact` log a JSON line per request (IP, country/region/city, referrer, user-agent, timestamp) via [`src/app/lib/requestInfo.ts`](src/app/lib/requestInfo.ts). Geo fields populate from Vercel's `x-vercel-ip-*` headers. View/filter them in the Vercel **Logs** tab; add a **Log Drain** (Axiom/Logtail/Datadog) for durable, queryable history. Both routes are also IP rate-limited.
+
 ## Project Structure
 
 ```

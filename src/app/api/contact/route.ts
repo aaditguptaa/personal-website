@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getClientIp, rateLimit } from "../../lib/rateLimit";
+import { logRequest } from "../../lib/requestInfo";
 
 const TO_EMAIL = "aadit.gupta@mail.utoronto.ca";
 
@@ -31,6 +32,9 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
+
+  // Log the origin (metadata only — not the message body) for abuse visibility.
+  logRequest(request, "/api/contact");
 
   const name = clean(body.name, 120);
   const email = clean(body.email, 200);

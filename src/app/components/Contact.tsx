@@ -4,6 +4,8 @@ import { useState } from "react";
 const EMAIL = "aadit.gupta@mail.utoronto.ca";
 const LINKEDIN = "https://www.linkedin.com/in/aadit-gupta-ag";
 
+type Status = "idle" | "sending" | "sent";
+
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
@@ -11,6 +13,7 @@ export default function Contact() {
     subject: "",
     message: "",
   });
+  const [status, setStatus] = useState<Status>("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -18,10 +21,7 @@ export default function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Compose a real email via the user's mail client — works with no backend.
+  const openMailto = () => {
     const subject = encodeURIComponent(
       form.subject || `Portfolio message from ${form.name}`,
     );
@@ -29,19 +29,49 @@ export default function Contact() {
       `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
     );
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  };
 
-    if (typeof window !== "undefined") {
-      window.dispatchEvent(
-        new CustomEvent("achievement", {
-          detail: {
-            icon: "📨",
-            title: "Message Dispatched!",
-            key: "contact-sent",
-          },
-        }),
-      );
+  const fireAchievement = () => {
+    window.dispatchEvent(
+      new CustomEvent("achievement", {
+        detail: {
+          icon: "📨",
+          title: "Message Dispatched!",
+          key: "contact-sent",
+        },
+      }),
+    );
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        // Email sent server-side (Resend configured).
+        setStatus("sent");
+        fireAchievement();
+        setForm({ name: "", email: "", subject: "", message: "" });
+        return;
+      }
+      // No provider configured (or a soft failure) → open the user's mail client.
+      openMailto();
+      fireAchievement();
+      setStatus("idle");
+    } catch {
+      // Network error → still let them send via their mail client.
+      openMailto();
+      setStatus("idle");
     }
-    setForm({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
@@ -113,9 +143,35 @@ export default function Contact() {
             </div>
 
             <div style={{ marginTop: "2.4rem" }}>
-              <button type="submit" className="gbtn">
-                <i className="bx bx-send" style={{ fontSize: "2rem" }} />{" "}
-                Transmit Message
+              <button
+                type="submit"
+                className="gbtn"
+                disabled={status === "sending"}
+                style={
+                  status === "sending"
+                    ? { opacity: 0.6, cursor: "not-allowed" }
+                    : undefined
+                }
+              >
+                {status === "sending" ? (
+                  <>
+                    <i
+                      className="bx bx-loader-alt bx-spin"
+                      style={{ fontSize: "2rem" }}
+                    />{" "}
+                    Transmitting…
+                  </>
+                ) : status === "sent" ? (
+                  <>
+                    <i className="bx bx-check" style={{ fontSize: "2rem" }} />{" "}
+                    Message Sent!
+                  </>
+                ) : (
+                  <>
+                    <i className="bx bx-send" style={{ fontSize: "2rem" }} />{" "}
+                    Transmit Message
+                  </>
+                )}
               </button>
             </div>
           </form>

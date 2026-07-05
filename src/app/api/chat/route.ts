@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { type NextRequest, NextResponse } from "next/server";
+import { getClientIp, rateLimit } from "../../lib/rateLimit";
 
 // Knowledge base — Claude answers as Aadit's portfolio guide from this context.
 const SYSTEM_PROMPT = `You are the friendly in-game "Guide" NPC on Aadit Gupta's gamified personal portfolio website. Answer visitors' questions about Aadit in a warm, concise, upbeat tone (2-4 sentences). A light gaming flavor is welcome but keep it professional and genuinely informative. If you don't know something, say so and point them to the Contact section. Only respond with the final answer — no preamble or meta commentary.
@@ -23,7 +24,9 @@ About Aadit Gupta:
 // Deterministic fallback so the chatbot works even without an API key configured.
 function fallbackReply(message: string): string {
   const m = message.toLowerCase();
-  if (/(study|studying|school|university|major|degree|education|course)/.test(m))
+  if (
+    /(study|studying|school|university|major|degree|education|course)/.test(m)
+  )
     return "Aadit is a Computer Engineering student at the University of Toronto (BASc + PEY Co-op, 2024–2029), with coursework in digital systems (Verilog/FPGA), C/C++, and electrical fundamentals.";
   if (/(experience|research|intern|job|caelus|andersen|work)/.test(m))
     return "Aadit is a research assistant on the CAELUS project (Univ. of Strathclyde) building an ML system to optimize emergency drone deployment in Glasgow, and was a Product Management Intern at Andersen UAE where he built an AI e-invoicing assistant. See the Quest Log for details!";
@@ -41,10 +44,23 @@ function fallbackReply(message: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  // Throttle abuse: 10 requests / minute per IP (protects the paid API + cost).
+  const ip = getClientIp(request);
+  const { ok, retryAfter } = rateLimit(`chat:${ip}`, 10, 60_000);
+  if (!ok) {
+    return NextResponse.json(
+      {
+        response:
+          "Whoa, slow down, speedrunner! ⏳ Give me a moment and try again.",
+      },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } },
+    );
+  }
+
   let message = "";
   try {
     const body = await request.json();
-    message = (body?.message ?? "").toString().slice(0, 2000);
+    message = (body?.message ?? "").toString().slice(0, 1000);
   } catch {
     return NextResponse.json(
       { error: "Invalid request body." },
@@ -68,8 +84,9 @@ export async function POST(request: NextRequest) {
 
   try {
     const client = new Anthropic({ apiKey });
+    // Haiku: fast and cost-efficient — ideal for a lightweight FAQ chatbot.
     const completion = await client.messages.create({
-      model: "claude-opus-4-8",
+      model: "claude-haiku-4-5",
       max_tokens: 400,
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: message }],

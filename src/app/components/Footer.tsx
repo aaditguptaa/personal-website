@@ -9,7 +9,12 @@ export default function Footer() {
         <b>© {new Date().getFullYear()} Aadit Gupta</b> — Thanks for playing.
         All rights reserved.
       </p>
-      <button className="respawn" onClick={toTop} aria-label="Back to top">
+      <button
+        type="button"
+        className="respawn"
+        onClick={toTop}
+        aria-label="Back to top"
+      >
         <i className="bx bx-up-arrow-alt" style={{ fontSize: "2rem" }} />{" "}
         Respawn
       </button>

@@ -1,8 +1,7 @@
 /* ============================================================
    AADIT.EXE — Gamified Portfolio Design System
+   Fonts self-hosted via next/font (see layout.tsx).
    ============================================================ */
-
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Press+Start+2P&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
 /* ---------- Design tokens ---------- */
 :root {
@@ -23,7 +22,7 @@
 
   /* Text */
   --text: #e6f1ff;
-  --muted: rgba(198, 216, 255, 0.62);
+  --muted: rgba(205, 220, 255, 0.78);
 
   /* Aliases kept for reused markup */
   --bg-color: var(--bg);
@@ -31,10 +30,10 @@
   --text-color: var(--text);
   --main-color: var(--cyan);
 
-  /* Fonts */
-  --font-display: "Orbitron", sans-serif;
-  --font-pixel: "Press Start 2P", monospace;
-  --font-body: "Rajdhani", "Space Grotesk", sans-serif;
+  /* Fonts (self-hosted via next/font variables) */
+  --font-display: var(--font-orbitron), "Orbitron", sans-serif;
+  --font-pixel: var(--font-press-start), "Press Start 2P", monospace;
+  --font-body: var(--font-rajdhani), "Rajdhani", sans-serif;
 
   /* Effects */
   --glow-cyan: 0 0 12px rgba(0, 234, 255, 0.55);
@@ -76,6 +75,13 @@ a:visited {
 ::selection {
   background: var(--cyan);
   color: var(--bg);
+}
+
+/* Keyboard-focus ring (accessibility) */
+:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* Neon scrollbar */
@@ -299,6 +305,10 @@ a:visited {
   cursor: pointer;
   display: none;
   z-index: 210;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 1;
 }
 
 /* ============================================================

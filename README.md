@@ -27,13 +27,26 @@ Open [http://localhost:3000](http://localhost:3000).
 
 The "Ask the Guide" chatbot ([`src/app/api/chat/route.ts`](src/app/api/chat/route.ts)) answers visitor questions about me.
 
-- **With an API key:** set `ANTHROPIC_API_KEY` and it uses Claude to answer from a built-in knowledge base.
+- **With an API key:** set `ANTHROPIC_API_KEY` and it uses Claude (Haiku) to answer from a built-in knowledge base.
 - **Without a key:** it falls back to a keyword-based responder, so the widget always works.
 
-To enable Claude, create a `.env.local` file:
+Both `/api/chat` and `/api/contact` are IP rate-limited to protect against abuse and runaway API costs.
+
+## Environment Variables
+
+Create a `.env.local` file (all optional — the site works without them):
 
 ```bash
+# Enables the Claude-powered chatbot (otherwise a keyword fallback is used)
 ANTHROPIC_API_KEY=sk-ant-...
+
+# Enables server-side contact emails via Resend (otherwise the form opens the
+# visitor's mail client via mailto)
+RESEND_API_KEY=re_...
+CONTACT_FROM="Portfolio <onboarding@resend.dev>"   # use a verified domain in prod
+
+# Your deployed URL — used for canonical links, OG tags, sitemap & robots
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
 ## Project Structure

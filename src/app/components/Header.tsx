@@ -45,11 +45,10 @@ export default function Header() {
         <span className="cursor" />
       </a>
 
-      <div
+      <button
+        type="button"
         className={`hud-menu-icon bx ${menuOpen ? "bx-x" : "bx-menu"}`}
         onClick={() => setMenuOpen((v) => !v)}
-        role="button"
-        tabIndex={0}
         aria-label={menuOpen ? "Close menu" : "Open menu"}
         aria-expanded={menuOpen}
       />

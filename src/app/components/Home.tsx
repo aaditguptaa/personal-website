@@ -253,7 +253,7 @@ export default function HomeSection() {
           {messages.length <= 1 && (
             <div className="npc-suggest">
               {SUGGESTIONS.map((s) => (
-                <button key={s} onClick={() => sendMessage(s)}>
+                <button type="button" key={s} onClick={() => sendMessage(s)}>
                   {s}
                 </button>
               ))}
@@ -271,6 +271,7 @@ export default function HomeSection() {
               aria-label="Chat message"
             />
             <button
+              type="button"
               onClick={() => sendMessage(input)}
               disabled={loading || !input.trim()}
               aria-label="Send"

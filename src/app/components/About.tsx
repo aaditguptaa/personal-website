@@ -43,13 +43,12 @@ export default function About() {
 
         <div className="about-content">
           <h3>
-            Computer Engineering Student &amp;{" "}
-            <span>Builder</span>
+            Computer Engineering Student &amp; <span>Builder</span>
           </h3>
           <p>
-            I&apos;m a Computer Engineering student at the University of Toronto,
-            working across machine learning, full-stack development, and
-            embedded hardware. I like taking ideas from research to shipped
+            I&apos;m a Computer Engineering student at the University of
+            Toronto, working across machine learning, full-stack development,
+            and embedded hardware. I like taking ideas from research to shipped
             systems — from ML optimizers to FPGA games.
           </p>
 
@@ -72,7 +71,11 @@ export default function About() {
             </div>
           )}
 
-          <button className="read-more" onClick={() => setShowMore((v) => !v)}>
+          <button
+            type="button"
+            className="read-more"
+            onClick={() => setShowMore((v) => !v)}
+          >
             {showMore ? "Show less" : "Read more"}
             <i
               className={`bx ${showMore ? "bx-chevron-up" : "bx-chevron-down"}`}

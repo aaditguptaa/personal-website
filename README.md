@@ -56,6 +56,12 @@ DATABASE_URL=postgres://user:pass@host/db?sslmode=require
 # LOCKED until ADMIN_PASSWORD is set. ADMIN_USER defaults to "admin".
 ADMIN_USER=admin
 ADMIN_PASSWORD=choose-a-strong-password
+
+# Secures the log-cleanup cron endpoint. Set this in production so only Vercel
+# Cron can trigger it (Vercel sends it automatically as a Bearer token).
+CRON_SECRET=another-strong-secret
+# Optional — how many days of logs to keep (default 30).
+LOG_RETENTION_DAYS=30
 ```
 
 ## Analytics & Observability
@@ -82,6 +88,11 @@ Railway, local) — just set `DATABASE_URL`.
 **`/admin/logs`** for a themed table of recent visitors + top countries/routes.
 It's protected by HTTP Basic Auth (via [`src/middleware.ts`](src/middleware.ts))
 and **locked by default** until `ADMIN_PASSWORD` is set.
+
+**Auto-cleanup:** a Vercel Cron ([`vercel.json`](vercel.json)) hits
+`/api/cron/cleanup` daily (04:00 UTC) and deletes rows older than
+`LOG_RETENTION_DAYS` (default 30). Set `CRON_SECRET` in production so only
+Vercel can trigger it. Runs only on Vercel deployments.
 
 **Query it directly:**
 

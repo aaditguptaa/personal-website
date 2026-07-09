@@ -104,3 +104,18 @@ export async function getRecentLogs(
         : String(r.created_at),
   }));
 }
+
+/**
+ * Delete request logs older than `days`. Returns the number of rows removed,
+ * or `null` when no DB is configured.
+ */
+export async function deleteOldLogs(days: number): Promise<number | null> {
+  const client = getSql();
+  if (!client) return null;
+  await ensureSchema(client);
+  const res = await client`
+    DELETE FROM request_logs
+    WHERE created_at < now() - make_interval(days => ${days})
+  `;
+  return res.count;
+}

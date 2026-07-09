@@ -23,15 +23,20 @@ export function getRequestOrigin(request: NextRequest, route: string) {
 /**
  * Records the request origin: emits a JSON console line (shows up in the Vercel
  * Logs tab) and persists a row to Postgres when DATABASE_URL is configured.
- * Never throws — a logging failure must not break the actual API request.
+ * Never throws — a logging failure must not break the actual request.
+ *
+ * `opts.referer` overrides the header referrer — used for page-view beacons,
+ * where the meaningful source is the page's `document.referrer`, not the
+ * beacon fetch's own Referer (which would just be the current page).
  */
 export async function logRequest(
   request: NextRequest,
   route: string,
-  extra?: Record<string, unknown>,
+  opts?: { referer?: string | null },
 ): Promise<void> {
   const origin = getRequestOrigin(request, route);
-  console.log(JSON.stringify({ type: "request", ...origin, ...extra }));
+  if (opts && "referer" in opts) origin.referer = opts.referer || null;
+  console.log(JSON.stringify({ type: "request", ...origin }));
   const { time: _time, ...entry } = origin;
   await storeRequestLog(entry);
 }

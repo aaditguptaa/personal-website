@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Orbitron, Press_Start_2P, Rajdhani } from "next/font/google";
+import PageTracker from "./components/PageTracker";
 import "boxicons/css/boxicons.min.css";
 import "./globals.css";
 
@@ -72,6 +73,7 @@ export default function RootLayout({
     >
       <body>
         {children}
+        <PageTracker />
         <Analytics />
       </body>
     </html>

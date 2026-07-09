@@ -64,6 +64,7 @@ Two layers of tracking:
 
 - **Visitor traffic** — [Vercel Web Analytics](https://vercel.com/docs/analytics) (`<Analytics />` in the root layout). Cookie-free; shows referrers/sources, countries, and top pages. **Enable "Web Analytics" in the Vercel project dashboard** to start collecting (it's a no-op locally).
 - **API request origins** — `/api/chat` and `/api/contact` log each request's IP, country/region/city, referrer, user-agent, and timestamp via [`src/app/lib/requestInfo.ts`](src/app/lib/requestInfo.ts). Geo fields populate from Vercel's `x-vercel-ip-*` headers. Always emitted as a JSON console line (visible in the Vercel **Logs** tab); both routes are also IP rate-limited.
+- **Page views** — [`PageTracker`](src/app/components/PageTracker.tsx) fires a beacon to `/api/track` on every page load/navigation, logging the path + real `document.referrer` (traffic source) to the same `request_logs` table. In `/admin/logs`, page views appear with the page path as their route (e.g. `/`, `/projects/ESP`), while API calls show `/api/*` — so you can tell them apart or filter with `route NOT LIKE '/api/%'`.
 
 ### Storing logs in a database (optional)
 

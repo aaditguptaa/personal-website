@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Log the origin (metadata only — not the message body) for abuse visibility.
-  logRequest(request, "/api/contact");
+  await logRequest(request, "/api/contact");
 
   const name = clean(body.name, 120);
   const email = clean(body.email, 200);

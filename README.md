@@ -47,6 +47,15 @@ CONTACT_FROM="Portfolio <onboarding@resend.dev>"   # use a verified domain in pr
 
 # Your deployed URL — used for canonical links, OG tags, sitemap & robots
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
+
+# Persist request-origin logs to Postgres (any provider). Omit to just use
+# console logs. Use a POOLED connection string on serverless.
+DATABASE_URL=postgres://user:pass@host/db?sslmode=require
+
+# Protects the /admin/logs dashboard (HTTP Basic Auth). The admin area is
+# LOCKED until ADMIN_PASSWORD is set. ADMIN_USER defaults to "admin".
+ADMIN_USER=admin
+ADMIN_PASSWORD=choose-a-strong-password
 ```
 
 ## Analytics & Observability
@@ -54,7 +63,39 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 Two layers of tracking:
 
 - **Visitor traffic** — [Vercel Web Analytics](https://vercel.com/docs/analytics) (`<Analytics />` in the root layout). Cookie-free; shows referrers/sources, countries, and top pages. **Enable "Web Analytics" in the Vercel project dashboard** to start collecting (it's a no-op locally).
-- **API request origins** — `/api/chat` and `/api/contact` log a JSON line per request (IP, country/region/city, referrer, user-agent, timestamp) via [`src/app/lib/requestInfo.ts`](src/app/lib/requestInfo.ts). Geo fields populate from Vercel's `x-vercel-ip-*` headers. View/filter them in the Vercel **Logs** tab; add a **Log Drain** (Axiom/Logtail/Datadog) for durable, queryable history. Both routes are also IP rate-limited.
+- **API request origins** — `/api/chat` and `/api/contact` log each request's IP, country/region/city, referrer, user-agent, and timestamp via [`src/app/lib/requestInfo.ts`](src/app/lib/requestInfo.ts). Geo fields populate from Vercel's `x-vercel-ip-*` headers. Always emitted as a JSON console line (visible in the Vercel **Logs** tab); both routes are also IP rate-limited.
+
+### Storing logs in a database (optional)
+
+Set `DATABASE_URL` and each request is also written to a `request_logs` table
+(auto-created on first write) — see [`src/app/lib/db.ts`](src/app/lib/db.ts).
+It's fail-safe: with no `DATABASE_URL`, or if a write fails, the request still
+succeeds and only the console log is kept.
+
+**Setup (Neon via Vercel):** Vercel dashboard → **Storage → Create Database →
+Postgres (Neon)** → it adds `DATABASE_URL` to your project automatically. Use
+the **pooled** connection string on serverless. Any Postgres works (Supabase,
+Railway, local) — just set `DATABASE_URL`.
+
+**Admin dashboard:** with `DATABASE_URL` and `ADMIN_PASSWORD` set, visit
+**`/admin/logs`** for a themed table of recent visitors + top countries/routes.
+It's protected by HTTP Basic Auth (via [`src/middleware.ts`](src/middleware.ts))
+and **locked by default** until `ADMIN_PASSWORD` is set.
+
+**Query it directly:**
+
+```sql
+-- recent visitors
+select created_at, route, country, city, referer
+from request_logs order by created_at desc limit 50;
+
+-- requests by country
+select country, count(*) from request_logs group by country order by count desc;
+
+-- traffic sources to the chatbot
+select referer, count(*) from request_logs
+where route = '/api/chat' group by referer order by count desc;
+```
 
 ## Project Structure
 

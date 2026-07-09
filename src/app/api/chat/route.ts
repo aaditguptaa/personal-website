@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  logRequest(request, "/api/chat");
+  await logRequest(request, "/api/chat");
 
   let message = "";
   try {

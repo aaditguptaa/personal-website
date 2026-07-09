@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { storeRequestLog } from "./db";
 import { getClientIp } from "./rateLimit";
 
 /**
@@ -20,20 +21,17 @@ export function getRequestOrigin(request: NextRequest, route: string) {
 }
 
 /**
- * Logs the request origin as a single JSON line. On Vercel these appear in the
- * project's Logs tab (searchable/filterable); pipe them to a Log Drain
- * (Axiom, Logtail, Datadog) or a DB if you want durable, queryable history.
+ * Records the request origin: emits a JSON console line (shows up in the Vercel
+ * Logs tab) and persists a row to Postgres when DATABASE_URL is configured.
+ * Never throws — a logging failure must not break the actual API request.
  */
-export function logRequest(
+export async function logRequest(
   request: NextRequest,
   route: string,
   extra?: Record<string, unknown>,
-) {
-  console.log(
-    JSON.stringify({
-      type: "request",
-      ...getRequestOrigin(request, route),
-      ...extra,
-    }),
-  );
+): Promise<void> {
+  const origin = getRequestOrigin(request, route);
+  console.log(JSON.stringify({ type: "request", ...origin, ...extra }));
+  const { time: _time, ...entry } = origin;
+  await storeRequestLog(entry);
 }

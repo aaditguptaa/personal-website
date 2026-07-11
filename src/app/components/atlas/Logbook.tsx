@@ -29,16 +29,16 @@ export default function Logbook() {
             <div className="relative border border-line-strong bg-card p-3 -rotate-1 hover:rotate-0 transition-transform duration-500 ease-out shadow-lift">
               <CornerTicks />
               <Image
-                src="/aaditImage.png"
-                alt="Aadit Gupta"
-                width={640}
-                height={720}
-                className="w-full h-auto object-cover grayscale-[35%] contrast-[1.02]"
+                src="/8-Bit_Image.png"
+                alt="Aadit Gupta — 8-bit portrait"
+                width={1254}
+                height={1254}
+                className="w-full h-auto object-cover [image-rendering:pixelated]"
                 sizes="(max-width: 1024px) 90vw, 380px"
               />
               <figcaption className="anno pt-3 flex justify-between">
                 <span>Plate A — the operator</span>
-                <span>Field conditions</span>
+                <span>8-bit render</span>
               </figcaption>
             </div>
             <span className="stamp absolute -bottom-4 -right-3 rotate-[-7deg] text-sm">

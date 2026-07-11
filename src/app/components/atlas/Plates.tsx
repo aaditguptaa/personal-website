@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { DrawnPath, m } from "./Motion";
+import { DrawnGroup, DrawnPath, m } from "./Motion";
 import { CornerTicks, SectionHead } from "./Ornaments";
 
 /* ------- hand-drawn schematics, one per plate ------- */
@@ -539,7 +539,9 @@ function PlateRow({ plate, flip }: { plate: Plate; flip: boolean }) {
             flip ? "md:order-1 md:border-r" : "md:border-l"
           }`}
         >
-          <Schematic />
+          <DrawnGroup>
+            <Schematic />
+          </DrawnGroup>
           <p className="anno mt-4 text-center">{plate.fig}</p>
         </div>
       </Link>

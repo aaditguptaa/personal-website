@@ -5,7 +5,6 @@ import {
   LazyMotion,
   MotionConfig,
   m,
-  useInView,
   useReducedMotion,
   useSpring,
 } from "framer-motion";
@@ -46,7 +45,32 @@ export function Reveal({
 }
 
 /**
- * An SVG path that draws itself when scrolled into view.
+ * A container whose descendants draw themselves when it scrolls into view.
+ * The observer lives on an HTML element (reliable everywhere); DrawnPath
+ * children inherit the trigger through variant propagation, which also works
+ * for paths inside <mask>, where IntersectionObserver never fires.
+ */
+export function DrawnGroup({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <m.div
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-40px" }}
+    >
+      {children}
+    </m.div>
+  );
+}
+
+/**
+ * An SVG path that draws itself when its DrawnGroup enters the viewport.
  * Dashed paths are revealed through an animated mask, because animating
  * pathLength directly would overwrite the dash pattern.
  */
@@ -66,21 +90,20 @@ export function DrawnPath({
   strokeDasharray?: string;
 }) {
   const maskId = `dp-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
-  const visibleRef = useRef<SVGPathElement>(null);
-  // Mask contents have no layout box, so IntersectionObserver never fires on
-  // them — observe the visible path instead and drive the mask from that.
-  const inView = useInView(visibleRef, { once: true, margin: "-40px" });
-  const transition = { duration, delay, ease: [0.33, 1, 0.68, 1] } as const;
+  const variants = {
+    hidden: { pathLength: 0 },
+    visible: {
+      pathLength: 1,
+      transition: { duration, delay, ease: [0.33, 1, 0.68, 1] as const },
+    },
+  };
 
   if (!strokeDasharray) {
     return (
       <m.path
         d={d}
         fill="none"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={transition}
+        variants={variants}
         stroke={stroke}
         strokeWidth={strokeWidth}
       />
@@ -93,15 +116,12 @@ export function DrawnPath({
         <m.path
           d={d}
           fill="none"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: inView ? 1 : 0 }}
-          transition={transition}
+          variants={variants}
           stroke="#fff"
           strokeWidth={12}
         />
       </mask>
       <path
-        ref={visibleRef}
         d={d}
         fill="none"
         stroke={stroke}

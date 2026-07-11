@@ -1,32 +1,26 @@
-"use client";
-import About from "./components/About";
-import Background from "./components/Background";
-import Contact from "./components/Contact";
-import Education from "./components/Education";
-import Footer from "./components/Footer";
-import GameEffects from "./components/GameEffects";
-import Header from "./components/Header";
-import HomeSection from "./components/Home";
-import Projects from "./components/Projects";
-import SkillsSection from "./components/SkillsSection";
+import FlightStrips from "./components/atlas/FlightStrips";
+import Footer from "./components/atlas/Footer";
+import Hero from "./components/atlas/Hero";
+import Logbook from "./components/atlas/Logbook";
+import Manifest from "./components/atlas/Manifest";
+import { MotionProvider } from "./components/atlas/Motion";
+import Plates from "./components/atlas/Plates";
+import TopBar from "./components/atlas/TopBar";
+import Transmission from "./components/atlas/Transmission";
 
 export default function Home() {
   return (
-    <>
-      <Background />
-      <GameEffects />
-      <Header />
-
+    <MotionProvider>
+      <TopBar />
       <main>
-        <HomeSection />
-        <About />
-        <Education />
-        <Projects />
-        <SkillsSection />
-        <Contact />
+        <Hero />
+        <Logbook />
+        <FlightStrips />
+        <Plates />
+        <Manifest />
+        <Transmission />
       </main>
-
       <Footer />
-    </>
+    </MotionProvider>
   );
 }

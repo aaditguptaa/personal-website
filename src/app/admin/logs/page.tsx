@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Background from "../../components/Background";
+// Legacy admin console styling — scoped to this route only.
+import "../../style.css";
+import "boxicons/css/boxicons.min.css";
 
 interface LogRow {
   id: number;

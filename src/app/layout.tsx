@@ -1,27 +1,25 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Orbitron, Press_Start_2P, Rajdhani } from "next/font/google";
+import { Archivo, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import PageTracker from "./components/PageTracker";
-import "boxicons/css/boxicons.min.css";
 import "./globals.css";
 
-// Self-hosted via next/font (no render-blocking CDN, no layout shift).
-const orbitron = Orbitron({
+// Self-hosted via next/font — no render-blocking CDN, no layout shift.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-orbitron",
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
   display: "swap",
 });
-const rajdhani = Rajdhani({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-rajdhani",
+  variable: "--font-archivo",
   display: "swap",
 });
-const pressStart = Press_Start_2P({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-press-start",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex",
   display: "swap",
 });
 
@@ -30,15 +28,16 @@ const SITE_URL =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Aadit Gupta — Player One",
+  title: "Aadit Gupta — Field Atlas",
   description:
-    "The gamified portfolio of Aadit Gupta — Computer Engineering student at the University of Toronto working in machine learning, full-stack development, and embedded hardware.",
+    "The field atlas of Aadit Gupta — Computer Engineering at the University of Toronto. Machine-learning systems for emergency drones, FPGA hardware, autonomous vehicles, and other charted expeditions.",
   keywords: [
     "Aadit Gupta",
     "Computer Engineering",
     "University of Toronto",
     "Machine Learning",
-    "Full-Stack Developer",
+    "Robotics",
+    "Autonomous Drones",
     "Portfolio",
   ],
   authors: [{ name: "Aadit Gupta" }],
@@ -47,16 +46,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: SITE_URL,
-    title: "Aadit Gupta — Player One",
+    title: "Aadit Gupta — Field Atlas",
     description:
-      "Gamified portfolio — ML, full-stack, and embedded projects from a UofT Computer Engineering student.",
+      "Charted expeditions in machine learning, autonomous drones, and silicon — a UofT Computer Engineering portfolio drawn as an aviation atlas.",
     siteName: "Aadit Gupta",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aadit Gupta — Player One",
+    title: "Aadit Gupta — Field Atlas",
     description:
-      "Gamified portfolio — ML, full-stack, and embedded projects from a UofT Computer Engineering student.",
+      "Charted expeditions in machine learning, autonomous drones, and silicon.",
   },
   robots: { index: true, follow: true },
 };
@@ -69,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${rajdhani.variable} ${pressStart.variable}`}
+      className={`${fraunces.variable} ${archivo.variable} ${plexMono.variable}`}
     >
       <body>
         {children}

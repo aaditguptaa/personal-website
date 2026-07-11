@@ -1,14 +1,189 @@
-@import url(./style.css);
-
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: var(--bg);
-  --color-foreground: var(--text);
+/*
+ * THE FIELD ATLAS — design system
+ * Paper & ink, drawn like a vintage aviation sectional chart.
+ */
+
+@theme {
+  --color-paper: #f3edde;
+  --color-parch: #eae0c9;
+  --color-card: #f7f2e6;
+  --color-ink: #26251d;
+  --color-soft: #5c5849;
+  --color-faint: #8b8672;
+  --color-line: rgba(38, 37, 29, 0.16);
+  --color-line-strong: rgba(38, 37, 29, 0.38);
+  --color-orange: #c04e1c;
+  --color-orange-deep: #9c3c12;
+  --color-olive: #67672f;
+  --color-chart: #47656f;
+  --color-stamp: #a53a22;
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-body: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-plex), "SFMono-Regular", Menlo, monospace;
+
+  --shadow-lift:
+    0 1px 0 rgba(38, 37, 29, 0.08), 0 12px 24px -16px rgba(38, 37, 29, 0.35);
 }
 
-html,
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--bg);
-  color: var(--text);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Paper grain — inline turbulence, multiplied over everything. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.52 0 0 0 0 0.45 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: rgba(192, 78, 28, 0.24);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px dashed var(--color-orange);
+  outline-offset: 3px;
+}
+
+/* Survey-grid background for chart areas. */
+.chart-grid {
+  background-image:
+    linear-gradient(to right, rgba(71, 101, 111, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(71, 101, 111, 0.1) 1px, transparent 1px),
+    linear-gradient(to right, rgba(71, 101, 111, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(71, 101, 111, 0.16) 1px, transparent 1px);
+  background-size:
+    28px 28px,
+    28px 28px,
+    140px 140px,
+    140px 140px;
+}
+
+/* Ruled writing lines, like a message pad. */
+.ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    var(--color-line) 31px,
+    var(--color-line) 32px
+  );
+}
+
+/* Editorial drop cap. */
+.dropcap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 600;
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.82;
+  padding-right: 0.12em;
+  padding-top: 0.06em;
+  color: var(--color-orange);
+}
+
+/* Rubber stamp. */
+.stamp {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-stamp);
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  padding: 0.3em 0.7em;
+  display: inline-block;
+  mix-blend-mode: multiply;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.28' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0.28'/%3E%3CfeComposite operator='over' in2='SourceGraphic'/%3E%3C/filter%3E%3Crect width='160' height='80' fill='%23fff' filter='url(%23r)'/%3E%3C/svg%3E");
+  mask-size: 160px 80px;
+}
+
+/* Small mono annotation label. */
+.anno {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-soft);
+}
+
+/* Dashed route line used as a divider. */
+.route-rule {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-line-strong) 0,
+    var(--color-line-strong) 8px,
+    transparent 8px,
+    transparent 14px
+  );
+}
+
+/* Hero flight-path marker travels along its offset path. */
+@keyframes fly-route {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes ping-soft {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  80%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Underline that draws itself on hover, like an ink stroke. */
+.ink-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  padding-bottom: 2px;
+}
+.ink-link:hover,
+.ink-link:focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion must win over all animation styles */
+    animation-duration: 0.01ms !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion must win over all animation styles */
+    animation-iteration-count: 1 !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced-motion must win over all animation styles */
+    transition-duration: 0.01ms !important;
+  }
 }

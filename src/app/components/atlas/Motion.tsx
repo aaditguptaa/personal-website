@@ -5,6 +5,7 @@ import {
   LazyMotion,
   MotionConfig,
   m,
+  useInView,
   useReducedMotion,
   useSpring,
 } from "framer-motion";
@@ -65,24 +66,42 @@ export function DrawnPath({
   strokeDasharray?: string;
 }) {
   const maskId = `dp-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
-  const drawn = (
-    <m.path
-      d={d}
-      fill="none"
-      initial={{ pathLength: 0 }}
-      whileInView={{ pathLength: 1 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration, delay, ease: [0.33, 1, 0.68, 1] }}
-      stroke={strokeDasharray ? "#fff" : stroke}
-      strokeWidth={strokeDasharray ? 12 : strokeWidth}
-    />
-  );
+  const visibleRef = useRef<SVGPathElement>(null);
+  // Mask contents have no layout box, so IntersectionObserver never fires on
+  // them — observe the visible path instead and drive the mask from that.
+  const inView = useInView(visibleRef, { once: true, margin: "-40px" });
+  const transition = { duration, delay, ease: [0.33, 1, 0.68, 1] } as const;
 
-  if (!strokeDasharray) return drawn;
+  if (!strokeDasharray) {
+    return (
+      <m.path
+        d={d}
+        fill="none"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={transition}
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+      />
+    );
+  }
+
   return (
     <>
-      <mask id={maskId}>{drawn}</mask>
+      <mask id={maskId}>
+        <m.path
+          d={d}
+          fill="none"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: inView ? 1 : 0 }}
+          transition={transition}
+          stroke="#fff"
+          strokeWidth={12}
+        />
+      </mask>
       <path
+        ref={visibleRef}
         d={d}
         fill="none"
         stroke={stroke}

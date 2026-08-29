@@ -411,7 +411,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.1 — station coverage",
     Schematic: SchematicCaelus,
     abstract:
-      "When a heart stops in Glasgow, an ambulance takes five to eight minutes. A drone carrying a defibrillator can do it in three. This system decides where the drones wait and how they fly — evolutionary station placement, a demographic demand model, A* routing, and a neural surrogate that predicts flight times a thousand times faster than simulation.",
+      "When a heart stops in Glasgow, an ambulance takes five to eight minutes. A drone carrying a defibrillator can do it in three. This system decides where the drones wait and how they fly with evolutionary station placement, a demographic demand model, A* routing, and a neural surrogate that predicts flight times a thousand times faster than simulation.",
   },
   {
     no: "02",
@@ -422,7 +422,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.2 — approach trajectory",
     Schematic: SchematicAero,
     abstract:
-      "Drone autonomy for places GPS can't reach: camera-based target localization at 30 fps on embedded hardware, minimum-jerk trajectory planning, PID control, and ROS plumbing between them — shipped as a single Docker image that flies on any airframe.",
+      "Drone autonomy for rough environments: camera-based target localization at 30 fps on embedded hardware, minimum-jerk trajectory planning, PID control, and ROS plumbing between them — shipped as a single Docker image that flies on any airframe.",
   },
   {
     no: "03",
@@ -433,7 +433,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.3 — racing line & frame format",
     Schematic: SchematicRacing,
     abstract:
-      "A 1:10 race car that drives itself around a track. I built its spinal cord — a checksummed binary UART protocol carrying sensor data and motor commands between Arduino and Jetson at 500 Hz — and part of its heart, the power-distribution copper in Altium.",
+      "A 1:10 race car that drives itself around a track. I built a checksummed binary UART protocol carrying sensor data and motor commands between Arduino and Jetson at 500 Hz, and part of its heart, the power-distribution circuit in Altium.",
   },
   {
     no: "04",
@@ -444,7 +444,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.4 — datapath & clock",
     Schematic: SchematicFpga,
     abstract:
-      "A rhythm game with no CPU and no software — the game is the circuit. Verilog state machines drive a 640×480 VGA display, scan a PS/2 keyboard, and synthesize PWM audio on a DE1-SoC, everything in lockstep with a 50 MHz clock.",
+      "A rhythm game with no CPU and no software where the game is the circuit. Verilog state machines drive a 640×480 VGA display, scan a PS/2 keyboard, and synthesize PWM audio on a DE1-SoC, everything in lockstep with a 50 MHz clock.",
   },
   {
     no: "05",
@@ -455,7 +455,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.5 — panorama to score",
     Schematic: SchematicStreetview,
     abstract:
-      "Monopoly, except the board is planet Earth. A multiplayer geography game built on Google Streetview — server-authoritative turns, Haversine proximity scoring, and a caching layer that keeps the Maps API bill from becoming the real boss fight.",
+      "Monopoly, except the board is planet Earth. A multiplayer geography game built on Google Streetview including server-authoritative turns, Haversine proximity scoring, and a caching layer that keeps the Maps API bill from becoming the real boss fight.",
   },
   {
     no: "06",
@@ -466,7 +466,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.6 — load path, section A-A",
     Schematic: SchematicStrap,
     abstract:
-      "The odd one out — no code at all. A full conceptual design specification for an ergonomic camera strap, written as sole client liaison on a five-person engineering team. Wider load paths, memory foam, three prototypes tested with users.",
+      "The odd one out with no code at all. A full conceptual design specification for an ergonomic camera strap, written as sole client liaison on a five-person engineering team. Wider load paths, memory foam, three prototypes tested with users.",
   },
 ];
 

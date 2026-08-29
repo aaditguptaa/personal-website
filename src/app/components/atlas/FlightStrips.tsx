@@ -25,7 +25,7 @@ const OPS: Strip[] = [
     status: "CLOSED",
     accent: "bg-olive",
     brief:
-      "Extended CAELUS — a peer-reviewed drone-logistics framework used by NHS Greater Glasgow & Clyde — into an end-to-end digital twin that decides, in real time, whether an AED-delivery drone can beat an ambulance to a cardiac arrest.",
+      "Extended CAELUS, a peer-reviewed drone-logistics framework used by NHS Greater Glasgow & Clyde into an end-to-end digital twin that decides, in real time, whether an AED-delivery drone can beat an ambulance to a cardiac arrest.",
     log: [
       "NSGA-II station placement — reachable demand 47% → 72%",
       "A* router over a population/wind grid + PyTorch flight-time surrogate",
@@ -56,7 +56,7 @@ const OPS: Strip[] = [
     status: "ACTIVE",
     accent: "bg-orange",
     brief:
-      "1:10-scale self-driving race car. I own the link between the autonomy brain and the actuators.",
+      "1:10-scale self-driving race car. I work on the link between the autonomy brain and the actuators.",
     log: [
       "Custom binary UART protocol, Arduino ↔ Jetson at 500 Hz",
       "Power-distribution PCB section in Altium",
@@ -70,7 +70,7 @@ const OPS: Strip[] = [
     status: "ACTIVE",
     accent: "bg-orange",
     brief:
-      "Autonomous drone missions in GPS-denied environments — perception, planning, and packaging.",
+      "Autonomous drone missions in rough environments that require perception, planning, and packaging.",
     log: [
       "Camera-based target localization, Python + OpenCV",
       "Minimum-jerk trajectory planning, MATLAB/Python",
@@ -241,8 +241,7 @@ export default function FlightStrips() {
             ))}
           </div>
           <p className="font-mono text-[11px] leading-relaxed text-soft border border-dashed border-line-strong p-4 mt-6">
-            NOTE — Strips are ordered by recency, not by importance. All
-            timestamps local to wherever the laptop was.
+            NOTE — I am looking for a PEY co-op term for Summer/Fall 2027. If you have an opportunity, please reach out via the contact form at the bottom of the page.
           </p>
         </div>
       </div>

@@ -53,9 +53,8 @@ export default function Logbook() {
             <div className="grid gap-x-8 md:grid-cols-[minmax(0,1fr)_9rem]">
               <p className="dropcap font-display text-xl sm:text-2xl leading-relaxed">
                 I&apos;m a computer engineering student at the University of
-                Toronto who likes problems with consequences. The one I care
-                about most spent this summer routing autonomous drones carrying
-                defibrillators across Glasgow — a machine-learning system where
+                Toronto who likes problems with consequences. I spent this summer routing autonomous drones carrying
+                defibrillators across Glasgow through a machine-learning system where
                 a better answer is measured in minutes of someone&apos;s life.
               </p>
               <p className="anno pt-3 md:pt-2 mb-6 md:mb-0">
@@ -70,9 +69,9 @@ export default function Logbook() {
               <p className="text-base sm:text-lg leading-relaxed text-soft">
                 Before that I built an AI e‑invoicing assistant in Dubai that
                 answered tax questions in under five seconds, and I spend term
-                time on UofT&apos;s autonomous racing and aerospace teams —
+                time on UofT&apos;s autonomous racing and aerospace teams
                 writing UART protocols, planning minimum‑jerk drone
-                trajectories, and laying out PCB copper in Altium.
+                trajectories, and laying out PCBs in Altium.
               </p>
               <p className="anno pt-2 mb-6 md:mb-0">
                 → Strips AND‑25, ASR, AER
@@ -83,10 +82,10 @@ export default function Logbook() {
           <Reveal delay={0.14}>
             <div className="grid gap-x-8 md:grid-cols-[minmax(0,1fr)_9rem] mt-8">
               <p className="text-base sm:text-lg leading-relaxed text-soft">
-                The pattern, if there is one: I like the full stack of an idea —
-                the math, the code, the silicon, and the reason it should exist
+                The pattern, if there is one: I like the full stack of an idea and building it end-to-end, from the concept to the code to the hardware to
+                the math, the silicon, and the reason it should exist
                 at all. Off duty it&apos;s cameras, maps, and finding an excuse
-                to be somewhere I haven&apos;t been.
+                to be somewhere I haven&apos;t been (I love travelling if you couldn't guess from the theme of the website).
               </p>
               <p className="anno pt-2">Hence this chart.</p>
             </div>

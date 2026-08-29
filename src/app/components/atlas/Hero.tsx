@@ -168,10 +168,10 @@ function Crosshair({
 const LEGEND_ROWS = [
   {
     k: "LAST FIX",
-    v: "ML researcher, CAELUS — U. of Strathclyde, ’26",
+    v: "ML researcher, CAELUS — U. of Strathclyde, '26",
   },
-  { k: "HEADING", v: "Machine learning × autonomous flight" },
-  { k: "AIRFRAME", v: "Computer Engineering + PEY, UofT ’29" },
+  { k: "HEADING", v: "Machine learning and Artificial Intelligence" },
+  { k: "AIRFRAME", v: "Computer Engineering + PEY, UofT '29" },
 ];
 
 export default function Hero() {
@@ -466,8 +466,8 @@ export default function Hero() {
             </p>
 
             <p className="font-display text-lg sm:text-xl leading-relaxed mt-6 text-ink">
-              I chart systems that have to survive the real world — optimizers
-              that route life‑saving drones over Glasgow, games burned into FPGA
+              I build systems that have to survive the real world such as optimizers
+              that route life-saving drones over Glasgow, games burned into FPGA
               silicon, and vehicles that drive themselves around a track.
             </p>
           </div>

@@ -36,7 +36,11 @@ const GROUPS: { title: string; code: string; items: Item[] }[] = [
     code: "OPT",
     items: [
       { name: "PyTorch", role: "Neural surrogates", use: ["CAELUS"] },
-      { name: "NSGA-II", role: "Multi-objective search", use: ["CAELUS"] },
+      {
+        name: "NSGA-II / pymoo",
+        role: "Multi-objective search",
+        use: ["CAELUS"],
+      },
       {
         name: "NumPy / Pandas",
         role: "Data handling",
@@ -53,6 +57,7 @@ const GROUPS: { title: string; code: string; items: Item[] }[] = [
       { name: "UART protocols", role: "Framing, checksums", use: ["ASR-25"] },
       { name: "Altium", role: "PCB layout", use: ["ASR-25"] },
       { name: "DE1-SoC FPGA", role: "Digital design", use: ["FPGA"] },
+      { name: "LTSpice", role: "Circuit simulation", use: ["UOFT-24"] },
       { name: "ROS", role: "Robot middleware", use: ["AER-25"] },
     ],
   },
@@ -66,6 +71,7 @@ const GROUPS: { title: string; code: string; items: Item[] }[] = [
         use: ["STREETVIEW", "ATLAS"],
       },
       { name: "FastAPI / Node", role: "APIs", use: ["AND-25", "STREETVIEW"] },
+      { name: "Flask / Leaflet", role: "Operator consoles", use: ["CAELUS"] },
       { name: "OpenCV", role: "Perception", use: ["AER-25"] },
       {
         name: "Docker",

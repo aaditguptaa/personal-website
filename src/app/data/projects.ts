@@ -30,14 +30,14 @@ export const CASES: Record<string, CaseFileData> = {
     slug: "CAELUS",
     plate: "01",
     title: "CAELUS Drone Optimizer",
-    stamp: "Active research",
+    stamp: "Completed research",
     abstract:
       "A machine-learning system that decides where emergency drones should wait, and how they should fly, so a defibrillator reaches a cardiac arrest in Glasgow before an ambulance can.",
     meta: [
       { k: "Type", v: "ML research — U. of Strathclyde" },
-      { k: "Stack", v: "Python, PyTorch, PostGIS" },
-      { k: "Methods", v: "NSGA-II, A*, Monte Carlo" },
-      { k: "Status", v: "In progress, 2026 —" },
+      { k: "Stack", v: "Python, PyTorch, Flask" },
+      { k: "Methods", v: "NSGA-II, A*, SORA 2.5" },
+      { k: "Status", v: "Complete, Jun — Aug 2026" },
     ],
     sections: [
       {
@@ -47,14 +47,14 @@ export const CASES: Record<string, CaseFileData> = {
           {
             kind: "paras",
             text: [
-              "CAELUS is a peer-reviewed drone-logistics framework used by NHS Greater Glasgow and Clyde. My work extends it toward a sharper question: can autonomous drones deliver automated external defibrillators (AEDs) to cardiac arrests faster than the ambulance service — and if so, where exactly should those drones live?",
+              "CAELUS is a peer-reviewed drone-logistics framework used by NHS Greater Glasgow and Clyde. My work extended it toward a sharper question: can autonomous drones deliver automated external defibrillators (AEDs) to cardiac arrests faster than the ambulance service — and if so, where exactly should those drones live?",
               "Cardiac arrest survival falls roughly 10% for every minute without defibrillation. Traditional response takes five to eight minutes. The delivery problem is therefore an optimization problem with a body count.",
             ],
           },
           {
             kind: "callout",
             title: "Research goal",
-            text: "Determine the minimum number and optimal placement of drone stations in Glasgow to achieve sub-3-minute AED delivery for 95%+ of cardiac-arrest incidents, balancing cost, coverage, and response time.",
+            text: "Decide, for any cardiac-arrest call in Greater Glasgow & Clyde, whether an AED-carrying drone can safely beat the ambulance — and work backwards from that to where the drone stations belong, balancing cost, coverage, and response time.",
           },
         ],
       },
@@ -85,7 +85,7 @@ export const CASES: Record<string, CaseFileData> = {
       {
         id: "method",
         label: "Method",
-        lede: "Four subsystems, each feeding the next.",
+        lede: "Five subsystems, each feeding the next.",
         blocks: [
           {
             kind: "steps",
@@ -103,8 +103,12 @@ export const CASES: Record<string, CaseFileData> = {
                 text: "Routing around urban obstacles and airspace constraints, with a FlightTimeNet neural surrogate predicting flight times ~1000× faster than full simulation inside the optimizer's inner loop.",
               },
               {
+                title: "Aviation-risk engine",
+                text: "A JARUS SORA 2.5 implementation — ground and air risk classes resolved into a SAIL rating — wired to a tactical go/no-go gate, so every flight the twin proposes is one a regulator could actually sanction.",
+              },
+              {
                 title: "End-to-end simulation",
-                text: "Monte Carlo replay of thousands of call scenarios against each candidate network before any conclusion is allowed to survive.",
+                text: "Replay of 992 real emergency incidents against each candidate network, driving a Flask + Leaflet operator console with animated fleet simulation and coverage analytics.",
               },
             ],
           },
@@ -112,11 +116,12 @@ export const CASES: Record<string, CaseFileData> = {
             kind: "callout",
             title: "Toolchain",
             items: [
-              "Python — data processing and simulation",
-              "NSGA-II — evolutionary multi-objective optimization",
-              "A* — urban pathfinding under airspace constraints",
+              "Python — 50+ modules across the digital twin",
+              "NSGA-II / pymoo — evolutionary multi-objective optimization",
+              "A* — urban pathfinding over a population/wind cost grid",
               "PyTorch — FlightTimeNet flight-time surrogate",
-              "PostGIS — spatial data and geographic queries",
+              "JARUS SORA 2.5 — ground/air risk and SAIL rating",
+              "Flask + Leaflet — operator console and coverage analytics",
             ],
           },
         ],
@@ -124,30 +129,30 @@ export const CASES: Record<string, CaseFileData> = {
       {
         id: "findings",
         label: "Findings",
-        lede: "The optimization produced findings with policy weight.",
+        lede: "Measured against 992 real emergency incidents, not simulated ones.",
         blocks: [
           {
             kind: "specs",
             rows: [
               {
                 label: "Response time",
-                value: "< 180 s",
-                note: "vs ~5–8 min for ambulances",
+                value: "~2.5 min",
+                note: "vs ~9 min for the ambulance on the same calls",
               },
               {
-                label: "Stations required",
-                value: "7–9",
-                note: "vs an initial estimate of 15+",
+                label: "Time saved",
+                value: "6–7 min",
+                note: "on 43% of calls — the drone arrives first",
               },
               {
-                label: "Coverage",
-                value: "95%+ of calls",
-                note: "within the response window",
+                label: "Reachable demand",
+                value: "47% → 72%",
+                note: "as the network scaled from 5 to 9 stations",
               },
               {
-                label: "Setup cost",
-                value: "~£2.5M",
-                note: "vs £8M+ for equivalent ambulances",
+                label: "Routing cost",
+                value: "hours → seconds",
+                note: "per call, via leg memoization and range gating",
               },
             ],
           },
@@ -155,10 +160,10 @@ export const CASES: Record<string, CaseFileData> = {
             kind: "callout",
             title: "What it means",
             items: [
-              "Drone-assisted response is economically viable and medically significant.",
-              "The optimal network is much smaller than intuition suggests — geometry beats volume.",
-              "The binding constraints are regulatory and airspace-related, not technical.",
-              "Findings prepared for policy review with UK emergency services.",
+              "On the calls where a drone gets there first, it buys 6–7 minutes — and cardiac-arrest survival falls ~10% per minute.",
+              "Coverage is bought by geometry, not fleet size: four extra stations moved reachable demand 25 points.",
+              "A surrogate model is what makes the optimizer tractable — full flight simulation in the inner loop is unaffordable.",
+              "The binding constraints are regulatory and airspace-related, not technical, which is why SORA sits in the loop.",
             ],
           },
         ],
@@ -716,7 +721,7 @@ export const CASES: Record<string, CaseFileData> = {
     title: "Camera Strap, Redesigned",
     stamp: "Spec issued",
     abstract:
-      "A complete conceptual design specification for an ergonomic camera strap — user research, load-path analysis, and a design that cut strain by 42%. Written as sole client liaison for a five-person engineering team.",
+      "A complete conceptual design specification for an ergonomic camera strap — user research, load-path analysis, and three prototypes iterated on client feedback. Written as sole client liaison for a five-person engineering team.",
     meta: [
       { k: "Type", v: "Product design — CDS" },
       { k: "Role", v: "Sole client liaison" },

@@ -54,7 +54,7 @@ export default function Logbook() {
               <p className="dropcap font-display text-xl sm:text-2xl leading-relaxed">
                 I&apos;m a computer engineering student at the University of
                 Toronto who likes problems with consequences. The one I care
-                about most right now routes autonomous drones carrying
+                about most spent this summer routing autonomous drones carrying
                 defibrillators across Glasgow — a machine-learning system where
                 a better answer is measured in minutes of someone&apos;s life.
               </p>

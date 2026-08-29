@@ -466,7 +466,7 @@ const PLATES: Plate[] = [
     fig: "Fig. 4.6 — load path, section A-A",
     Schematic: SchematicStrap,
     abstract:
-      "The odd one out — no code at all. A full conceptual design specification for an ergonomic camera strap, written as sole client liaison on a five-person engineering team. Wider load paths, memory foam, 42% less strain.",
+      "The odd one out — no code at all. A full conceptual design specification for an ergonomic camera strap, written as sole client liaison on a five-person engineering team. Wider load paths, memory foam, three prototypes tested with users.",
   },
 ];
 

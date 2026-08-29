@@ -167,8 +167,8 @@ function Crosshair({
 
 const LEGEND_ROWS = [
   {
-    k: "CURRENT POSITION",
-    v: "Research assistant, CAELUS — U. of Strathclyde",
+    k: "LAST FIX",
+    v: "ML researcher, CAELUS — U. of Strathclyde, ’26",
   },
   { k: "HEADING", v: "Machine learning × autonomous flight" },
   { k: "AIRFRAME", v: "Computer Engineering + PEY, UofT ’29" },

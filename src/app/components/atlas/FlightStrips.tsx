@@ -19,17 +19,18 @@ interface Strip {
 const OPS: Strip[] = [
   {
     callsign: "CAE-26",
-    time: "2026 — NOW",
-    role: "Research Assistant, CAELUS Project",
+    time: "JUN — AUG 2026",
+    role: "Machine Learning Researcher",
     org: "University of Strathclyde · Glasgow",
-    status: "ACTIVE",
-    accent: "bg-orange",
+    status: "CLOSED",
+    accent: "bg-olive",
     brief:
-      "Extending CAELUS — a peer-reviewed drone-logistics framework used by NHS Greater Glasgow & Clyde — with an ML system that decides where drone stations go and how they fly to cardiac arrests.",
+      "Extended CAELUS — a peer-reviewed drone-logistics framework used by NHS Greater Glasgow & Clyde — into an end-to-end digital twin that decides, in real time, whether an AED-delivery drone can beat an ambulance to a cardiac arrest.",
     log: [
-      "NSGA-II multi-objective optimizer for station placement",
-      "Demographic-aware demand model (Poisson NLL, spatial CV)",
-      "A* path planning + FlightTimeNet neural surrogate",
+      "NSGA-II station placement — reachable demand 47% → 72%",
+      "A* router over a population/wind grid + PyTorch flight-time surrogate",
+      "JARUS SORA 2.5 risk engine with a per-flight go/no-go gate",
+      "Flask operator console — fleet simulation & coverage analytics",
     ],
   },
   {
@@ -74,6 +75,21 @@ const OPS: Strip[] = [
       "Camera-based target localization, Python + OpenCV",
       "Minimum-jerk trajectory planning, MATLAB/Python",
       "Docker images so the stack flies on any airframe",
+    ],
+  },
+  {
+    callsign: "CSR-25",
+    time: "JAN — APR 2025",
+    role: "Communication Liaison, Camera Strap Redesign",
+    org: "Engineering Strategies & Practice · UofT",
+    status: "CLOSED",
+    accent: "bg-olive",
+    brief:
+      "Client-facing design project: rework a camera strap for comfort over long shoots. I ran every line of contact between the client and the team.",
+    log: [
+      "Three prototypes, iterated on client and user feedback",
+      "Gantt chart and two status reports tracking the schedule",
+      "Full conceptual design spec — see Plate 06",
     ],
   },
 ];

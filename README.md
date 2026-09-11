@@ -23,6 +23,13 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run lint`   | Lint with Biome                             |
 | `npm run format` | Format with Biome                           |
 
+## Resume publishing
+
+Publish finished Google Docs drafts with **Website → Publish resume**. The
+[setup guide](docs/resume-publishing.md) includes a Google Apps Script that exports
+a PDF to this repository and uses the connected Vercel deployment to update the
+website. Later Google Docs edits remain unpublished until you click the menu again.
+
 ## AI Chatbot
 
 The "Ask the Guide" chatbot ([`src/app/api/chat/route.ts`](src/app/api/chat/route.ts)) answers visitor questions about me.
